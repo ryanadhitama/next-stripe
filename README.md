@@ -1,1 +1,1 @@
-# Next Stripe
+# Next Stripe Integration
