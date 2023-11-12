@@ -7,6 +7,8 @@ export default async function handler(req, res) {
   const { method, body } = req;
   if (method === "POST") {
     try {
+      const date = new Date().toISOString();
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
@@ -14,15 +16,15 @@ export default async function handler(req, res) {
             price_data: {
               currency: "usd",
               product_data: {
-                name: "INV" + new Date("YmdHis"),
+                name: "INV-" + date,
               },
-              unit_amount: (body?.amount * 1000) || 1000,
+              unit_amount: body?.amount * 100 || 100,
             },
             quantity: 1,
           },
         ],
         mode: "payment",
-        cancel_url: `${host}/cancel`,
+        cancel_url: `${host}`,
         success_url: `${host}/success`,
       });
 
